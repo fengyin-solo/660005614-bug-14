@@ -21,6 +21,7 @@
       </div>
       <div class="side-area">
         <LogPanel />
+        <ExportPanel />
         <CircuitBreakerPanel />
       </div>
     </div>
@@ -31,13 +32,18 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 import DAGCanvas from './components/DAGCanvas.vue'
 import LogPanel from './components/LogPanel.vue'
+import ExportPanel from './components/ExportPanel.vue'
 import CircuitBreakerPanel from './components/CircuitBreakerPanel.vue'
 import { useDAGStore } from './store/dag'
 const store = useDAGStore()
 const wfName = ref('data-pipeline')
 function create() { store.createWorkflow(wfName.value) }
 function run() { store.run() }
-onMounted(() => store.connectWS())
+onMounted(() => {
+  store.connectWS()
+  store.refreshExecutions()
+  store.refreshArchives()
+})
 onUnmounted(() => store.disconnectWS())
 </script>
 
@@ -49,7 +55,7 @@ body{font-family:system-ui,sans-serif;background:#0c0c1d;color:#e0e0e0}
 .top-bar h1{font-size:1rem;color:#bb86fc}
 .tools{display:flex;gap:6px;align-items:center}
 .ws-dot{width:8px;height:8px;border-radius:50%;background:#ef4444}.ws-dot.on{background:#22c55e}
-.main-grid{display:grid;grid-template-columns:1fr 320px;flex:1;overflow:hidden}
+.main-grid{display:grid;grid-template-columns:1fr 340px;flex:1;overflow:hidden}
 .dag-area{background:#0f0f23;position:relative;overflow:hidden}
 .side-area{display:flex;flex-direction:column;gap:8px;padding:8px;overflow-y:auto;background:#14142b}
 </style>
