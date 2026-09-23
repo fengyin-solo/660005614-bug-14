@@ -78,6 +78,7 @@ temp/
 .cache-loader/
 .eslintcache
 .stylelintcache
+/backend/data/
 .parcel-cache/
 .turbo/
 .next/
